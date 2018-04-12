@@ -20,6 +20,7 @@ namespace Honeydew.Controllers
         [HttpGet]
         public IEnumerable<Todo> GetAll()
         {
+            List<Todolist> list = _context.Todolists.ToList();
             return _context.Todos.ToList();
         }
 
