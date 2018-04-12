@@ -25,7 +25,7 @@ namespace Honeydew
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<HoneydewContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddDbContext<HoneydewContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
         }
 

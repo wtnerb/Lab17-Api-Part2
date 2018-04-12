@@ -14,6 +14,6 @@ namespace Honeydew.Models
         }
 
         public DbSet<Todo> Todos { get; set; }
-        public DbSet<Todolist> Todolist { get; set; }
+        public DbSet<Todolist> Todolists { get; set; }
     }
 }
