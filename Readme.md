@@ -58,3 +58,14 @@ note: 2018-0412, Posts are returning "bad request" status codes but still postin
 - GET ```Todolist/{id}``` gets the Todolist associated with that id number
 - POST ```Todolist``` A valid Todolist item with all fields complete (except id, which will be auto generated if not provided) must be included in the body of the request. Otherwise, your will get a bad request error.
 - DELETE ```Todolist/{id}``` deletes the item with a matching id. If a single todo item continues to reference the ID, it will throw an exception and break instead of deleting.
+
+## Architecture
+This uses:
+- .net core entity framework
+- .net core mvc
+- sql server
+
+The data is stored in a database. It will be seeded upon first initialization.
+
+## version
+2018-04-12 v1.0 App works on my machine. Seeing if works elsewhere. Coming next: update.
