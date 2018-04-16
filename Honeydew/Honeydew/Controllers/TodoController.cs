@@ -48,6 +48,29 @@ namespace Honeydew.Controllers
             return CreatedAtRoute("GetTodo", new { id = td.Id }, td);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Edit (int id, [FromBody] Todo td)
+        {
+            if (td == null || td.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var todo = _context.Todos.FirstOrDefault(t => t.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            todo.Complete = td.Complete;
+            todo.Name = td.Name;
+            todo.Belongs = td.Belongs;
+
+            _context.Todos.Update(todo);
+            _context.SaveChanges();
+            return new NoContentResult();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Annihilate (int id)
         {
