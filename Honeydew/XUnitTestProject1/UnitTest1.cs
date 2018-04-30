@@ -3,6 +3,7 @@ using Xunit;
 using Honeydew.Models;
 using Microsoft.EntityFrameworkCore;
 using Honeydew.Controllers;
+using System.Threading.Tasks;
 
 namespace XUnitTestProject1
 {
@@ -33,7 +34,7 @@ namespace XUnitTestProject1
                 Todolist example = new Todolist() { Name = "example", Id = 9 };
                 Todo first = new Todo() { Name = "example", Belongs = example, Complete = true };
                 Todo second = new Todo() { Name = "example2", Belongs = example, Complete = false };
-                context.Todos.Add( first);
+                context.Todos.Add(first);
                 context.Todos.Add(second);
 
                 context.SaveChanges();
@@ -46,6 +47,22 @@ namespace XUnitTestProject1
                     count++;
                 }
                 Assert.Equal(2, count);
+            }
+        }
+
+        [Fact]
+        public async Task CanGetATodo()
+        {
+            var options = new DbContextOptionsBuilder<HoneydewContext>()
+                .UseInMemoryDatabase(databaseName: "testing")
+                .Options;
+            using (var context = new HoneydewContext(options))
+            {
+                var tController = new TodoController(context);
+                Todolist example = new Todolist() { Name = "example", Id = 9 };
+                Todo Example = await context.Todos.FirstOrDefaultAsync(x => x.Name == "example");
+                var result = tController.GetTodo(example.Id);
+                Assert.NotNull(result);
             }
         }
     }
