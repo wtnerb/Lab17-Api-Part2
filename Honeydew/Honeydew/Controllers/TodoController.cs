@@ -42,10 +42,17 @@ namespace Honeydew.Controllers
             {
                 return BadRequest();
             }
-            _context.Todos.Add(td);
+            _context.Todos.Add( new Todo { Belongs = td.Belongs,
+                                           Complete = td.Complete,
+                                           Name = td.Name
+                                          });
             _context.SaveChanges();
+             int newId = _context.Todos.First<Todo>(t => t.Belongs == td.Belongs
+                                          && t.Complete == td.Complete
+                                          && t.Name == td.Name)
+                                            .Id;
 
-            return CreatedAtRoute("GetTodo", new { id = td.Id }, td);
+            return CreatedAtRoute("GetTodo",new { id = newId },td);
         }
 
         [HttpPut("{id}")]
