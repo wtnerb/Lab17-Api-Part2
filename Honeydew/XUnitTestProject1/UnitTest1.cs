@@ -45,7 +45,7 @@ namespace XUnitTestProject1
                     Assert.True(first == t || second == t);
                     count++;
                 }
-                Assert.True(count == 0);
+                Assert.Equal(2, count);
             }
         }
     }
