@@ -53,6 +53,27 @@ namespace Honeydew.Controllers
             return GetOne(addition.Id);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Edit(int id, [FromBody] Todolist td)
+        {
+            if (td == null || td.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var todo = _context.Todolists.FirstOrDefault(t => t.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            todo.Name = td.Name;
+
+            _context.Todolists.Update(td);
+            _context.SaveChanges();
+            return new NoContentResult();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Eliminate (int id)
         {

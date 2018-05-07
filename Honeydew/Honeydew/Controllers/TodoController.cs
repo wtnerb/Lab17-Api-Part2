@@ -42,10 +42,40 @@ namespace Honeydew.Controllers
             {
                 return BadRequest();
             }
-            _context.Todos.Add(td);
+            _context.Todos.Add( new Todo { Belongs = td.Belongs,
+                                           Complete = td.Complete,
+                                           Name = td.Name
+                                          });
             _context.SaveChanges();
+             int newId = _context.Todos.First<Todo>(t => t.Belongs == td.Belongs
+                                          && t.Complete == td.Complete
+                                          && t.Name == td.Name)
+                                            .Id;
 
-            return CreatedAtRoute("GetTodo", new { id = td.Id }, td);
+            return CreatedAtRoute("GetTodo",new { id = newId },td);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Edit (int id, [FromBody] Todo td)
+        {
+            if (td == null || td.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var todo = _context.Todos.FirstOrDefault(t => t.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            todo.Complete = td.Complete;
+            todo.Name = td.Name;
+            todo.Belongs = td.Belongs;
+
+            _context.Todos.Update(todo);
+            _context.SaveChanges();
+            return new NoContentResult();
         }
 
         [HttpDelete("{id}")]
